@@ -80,28 +80,28 @@ http://www.easysw.com/~mike/serial/serial.html */
 */
 
 /* handle returned from open() */
-static int RS485_Handle = -1;
+static __thread int RS485_Handle = -1;
 /* baudrate settings are defined in <asm/termbits.h>, which is
    included by <termios.h> */
-static unsigned int RS485_Baud = B38400;
+static __thread unsigned int RS485_Baud = B38400;
 /* serial port name, /dev/ttyS0,
   /dev/ttyUSB0 for USB->RS485 from B&B Electronics USOPTL4 */
-static char *RS485_Port_Name = "/dev/ttyUSB0";
+static __thread char *RS485_Port_Name = "/dev/ttyUSB0";
 /* some terminal I/O have RS-485 specific functionality */
 #ifndef RS485MOD
 #define RS485MOD 0
 #endif
 /* serial I/O settings */
-static struct termios RS485_oldtio;
+static __thread struct termios RS485_oldtio;
 /* for setting custom divisor */
-static struct serial_struct RS485_oldserial;
+static __thread struct serial_struct RS485_oldserial;
 /* indicator of special baud rate */
-static bool RS485_SpecBaud = false;
+static __thread bool RS485_SpecBaud = false;
 
 /* Ring buffer for incoming bytes, in order to speed up the receiving. */
-static FIFO_BUFFER Rx_FIFO;
+static __thread FIFO_BUFFER Rx_FIFO;
 /* buffer size needs to be a power of 2 */
-static uint8_t Rx_Buffer[4096];
+static __thread uint8_t Rx_Buffer[4096];
 
 #define _POSIX_SOURCE 1 /* POSIX compliant source */
 

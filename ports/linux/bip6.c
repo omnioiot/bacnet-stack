@@ -61,10 +61,10 @@ static void debug_print_ipv6(const char *str, const struct in6_addr *addr)
 /** @file linux/bip6.c  Initializes BACnet/IPv6 interface (Linux). */
 
 /* unix socket */
-static int BIP6_Socket = -1;
+static __thread int BIP6_Socket = -1;
 /* local address - filled by init functions */
-static BACNET_IP6_ADDRESS BIP6_Addr;
-static BACNET_IP6_ADDRESS BIP6_Broadcast_Addr;
+static __thread BACNET_IP6_ADDRESS BIP6_Addr;
+static __thread BACNET_IP6_ADDRESS BIP6_Broadcast_Addr;
 
 /**
  * Set the interface name. On Linux, ifname is the /dev/ name of the interface.

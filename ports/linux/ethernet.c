@@ -44,16 +44,16 @@
  * BACnet/Ethernet. */
 
 /* commonly used comparison address for ethernet */
-uint8_t Ethernet_Broadcast[MAX_MAC_LEN] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+__thread uint8_t Ethernet_Broadcast[MAX_MAC_LEN] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
     0xFF };
 /* commonly used empty address for ethernet quick compare */
-uint8_t Ethernet_Empty_MAC[MAX_MAC_LEN] = { 0, 0, 0, 0, 0, 0 };
+__thread uint8_t Ethernet_Empty_MAC[MAX_MAC_LEN] = { 0, 0, 0, 0, 0, 0 };
 
 /* my local device data - MAC address */
-uint8_t Ethernet_MAC_Address[MAX_MAC_LEN] = { 0 };
+__thread uint8_t Ethernet_MAC_Address[MAX_MAC_LEN] = { 0 };
 
-static int eth802_sockfd = -1; /* 802.2 file handle */
-static struct sockaddr eth_addr = { 0 }; /* used for binding 802.2 */
+static __thread int eth802_sockfd = -1; /* 802.2 file handle */
+static __thread struct sockaddr eth_addr = { 0 }; /* used for binding 802.2 */
 
 bool ethernet_valid(void)
 {

@@ -59,11 +59,11 @@
 #endif
 
 /* local port data - shared with RS-485 */
-static volatile struct mstp_port_struct_t MSTP_Port;
+static __thread volatile struct mstp_port_struct_t MSTP_Port;
 /* buffers needed by mstp port struct */
-static uint8_t RxBuffer[MAX_MPDU];
-static uint8_t TxBuffer[MAX_MPDU];
-static struct mstimer Silence_Timer;
+static __thread uint8_t RxBuffer[MAX_MPDU];
+static __thread uint8_t TxBuffer[MAX_MPDU];
+static __thread struct mstimer Silence_Timer;
 
 static uint32_t Timer_Silence(void *pArg)
 {
@@ -153,7 +153,7 @@ static void snap_received_packet(
 {
     uint16_t mtu_len = 0; /* number of octets of packet saved in file */
     unsigned i = 0; /* counter */
-    static uint8_t mtu[1500] = { 0 };
+    static __thread uint8_t mtu[1500] = { 0 };
     uint16_t max_data = 0;
 
     mtu[0] = 0;
