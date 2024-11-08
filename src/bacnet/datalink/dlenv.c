@@ -42,15 +42,15 @@
 /** @file dlenv.c  Initialize the DataLink configuration. */
 #if defined(BACDL_BIP)
 /* timer used to renew Foreign Device Registration */
-static uint16_t BBMD_Timer_Seconds;
+static __thread uint16_t BBMD_Timer_Seconds;
 /* BBMD variables */
-static uint16_t BBMD_TTL_Seconds = 60000;
-static BACNET_IP_ADDRESS BBMD_Address;
-static bool BBMD_Address_Valid;
-static uint16_t BBMD_Result = 0;
-static BACNET_IP_BROADCAST_DISTRIBUTION_TABLE_ENTRY BBMD_Table_Entry;
+static __thread uint16_t BBMD_TTL_Seconds = 60000;
+static __thread BACNET_IP_ADDRESS BBMD_Address;
+static __thread bool BBMD_Address_Valid;
+static __thread uint16_t BBMD_Result = 0;
+static __thread BACNET_IP_BROADCAST_DISTRIBUTION_TABLE_ENTRY BBMD_Table_Entry;
 /* enable debugging */
-static bool BIP_DL_Debug = false;
+static __thread bool BIP_DL_Debug = false;
 
 /* Simple setters for BBMD registration variables. */
 

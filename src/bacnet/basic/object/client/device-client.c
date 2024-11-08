@@ -59,16 +59,16 @@
    The properties that are constant can be hard coded
    into the read-property encoding. */
 
-static uint32_t Object_Instance_Number = 260001;
-static BACNET_CHARACTER_STRING My_Object_Name;
-static BACNET_DEVICE_STATUS System_Status = STATUS_OPERATIONAL;
-static char *Vendor_Name = BACNET_VENDOR_NAME;
-static uint16_t Vendor_Identifier = BACNET_VENDOR_ID;
-static char *Model_Name = "GNU";
-static char *Application_Software_Version = "1.0";
+static __thread uint32_t Object_Instance_Number = 260001;
+static __thread BACNET_CHARACTER_STRING My_Object_Name;
+static __thread BACNET_DEVICE_STATUS System_Status = STATUS_OPERATIONAL;
+static __thread char *Vendor_Name = BACNET_VENDOR_NAME;
+static __thread uint16_t Vendor_Identifier = BACNET_VENDOR_ID;
+static __thread char *Model_Name = "GNU";
+static __thread char *Application_Software_Version = "1.0";
 static const char *BACnet_Version = BACNET_VERSION_TEXT;
-static char *Location = "USA";
-static char *Description = "command line client";
+static __thread char *Location = "USA";
+static __thread char *Description = "command line client";
 /* static uint8_t Protocol_Version = 1; - constant, not settable */
 /* static uint8_t Protocol_Revision = 4; - constant, not settable */
 /* Protocol_Services_Supported - dynamically generated */
@@ -78,14 +78,14 @@ static char *Description = "command line client";
 /* static uint8_t Max_Segments_Accepted = 0; */
 /* VT_Classes_Supported */
 /* Active_VT_Sessions */
-static BACNET_TIME Local_Time;
-static BACNET_DATE Local_Date;
-static int16_t UTC_Offset;
-static bool Daylight_Savings_Status;
+static __thread BACNET_TIME Local_Time;
+static __thread BACNET_DATE Local_Date;
+static __thread int16_t UTC_Offset;
+static __thread bool Daylight_Savings_Status;
 #if defined(BACNET_TIME_MASTER)
-static bool Align_Intervals;
-static uint32_t Interval_Minutes;
-static uint32_t Interval_Offset_Minutes;
+static __thread bool Align_Intervals;
+static __thread uint32_t Interval_Minutes;
+static __thread uint32_t Interval_Offset_Minutes;
 /* Time_Synchronization_Recipients */
 #endif
 /* List_Of_Session_Keys */

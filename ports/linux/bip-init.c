@@ -60,7 +60,7 @@
 /** @file linux/bip-init.c  Initializes BACnet/IP interface (Linux). */
 
 /* unix socket */
-__thread static int BIP_Socket = -1;
+static __thread int BIP_Socket = -1;
 
 /* NOTE: we store address and port in network byte order
    since BACnet/IP uses network byte order for all address byte arrays
