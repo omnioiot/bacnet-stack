@@ -78,11 +78,11 @@ typedef struct BACnet_COV_Subscription {
 #ifndef MAX_COV_SUBCRIPTIONS
 #define MAX_COV_SUBCRIPTIONS 128
 #endif
-static BACNET_COV_SUBSCRIPTION COV_Subscriptions[MAX_COV_SUBCRIPTIONS];
+static __thread BACNET_COV_SUBSCRIPTION COV_Subscriptions[MAX_COV_SUBCRIPTIONS];
 #ifndef MAX_COV_ADDRESSES
 #define MAX_COV_ADDRESSES 16
 #endif
-static BACNET_COV_ADDRESS COV_Addresses[MAX_COV_ADDRESSES];
+static __thread BACNET_COV_ADDRESS COV_Addresses[MAX_COV_ADDRESSES];
 
 /**
  * Gets the address from the list of COV addresses
@@ -595,14 +595,14 @@ void handler_cov_timer_seconds(uint32_t elapsed_seconds)
 
 bool handler_cov_fsm(void)
 {
-    static int index = 0;
+    static __thread int index = 0;
     BACNET_OBJECT_TYPE object_type = MAX_BACNET_OBJECT_TYPE;
     uint32_t object_instance = 0;
     bool status = false;
     bool send = false;
     BACNET_PROPERTY_VALUE value_list[MAX_COV_PROPERTIES];
     /* states for transmitting */
-    static enum {
+    static __thread enum {
         COV_STATE_IDLE = 0,
         COV_STATE_MARK,
         COV_STATE_CLEAR,

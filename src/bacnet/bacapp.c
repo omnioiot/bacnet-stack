@@ -357,9 +357,9 @@ bool bacapp_decode_application_data_safe(uint8_t *new_apdu,
     BACNET_APPLICATION_DATA_VALUE *value)
 {
     /* The static variables that store the apdu buffer between function calls */
-    static uint8_t *apdu = NULL;
-    static uint32_t apdu_len_remaining = 0;
-    static uint32_t apdu_len = 0;
+    static __thread uint8_t *apdu = NULL;
+    static __thread uint32_t apdu_len_remaining = 0;
+    static __thread uint32_t apdu_len = 0;
     int len = 0;
     int tag_len = 0;
     uint8_t tag_number = 0;

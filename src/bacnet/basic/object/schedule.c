@@ -41,7 +41,7 @@
 #define MAX_SCHEDULES 4
 #endif
 
-static SCHEDULE_DESCR Schedule_Descr[MAX_SCHEDULES];
+static __thread SCHEDULE_DESCR Schedule_Descr[MAX_SCHEDULES];
 
 static const int Schedule_Properties_Required[] = { PROP_OBJECT_IDENTIFIER,
     PROP_OBJECT_NAME, PROP_OBJECT_TYPE, PROP_PRESENT_VALUE,
@@ -130,7 +130,7 @@ unsigned Schedule_Instance_To_Index(uint32_t instance)
 bool Schedule_Object_Name(
     uint32_t object_instance, BACNET_CHARACTER_STRING *object_name)
 {
-    static char text_string[32] = ""; /* okay for single thread */
+    static __thread char text_string[32] = ""; /* okay for single thread */
     unsigned int index;
     bool status = false;
 

@@ -37,9 +37,9 @@
 #include "access_point.h"
 #include "bacnet/basic/services.h"
 
-static bool Access_Point_Initialized = false;
+static __thread bool Access_Point_Initialized = false;
 
-static ACCESS_POINT_DESCR ap_descr[MAX_ACCESS_POINTS];
+static __thread ACCESS_POINT_DESCR ap_descr[MAX_ACCESS_POINTS];
 
 /* These three arrays are used by the ReadPropertyMultiple handler */
 static const int Properties_Required[] = { PROP_OBJECT_IDENTIFIER,
@@ -142,7 +142,7 @@ unsigned Access_Point_Instance_To_Index(uint32_t object_instance)
 bool Access_Point_Object_Name(
     uint32_t object_instance, BACNET_CHARACTER_STRING *object_name)
 {
-    static char text_string[32] = ""; /* okay for single thread */
+    static __thread char text_string[32] = ""; /* okay for single thread */
     bool status = false;
 
     if (object_instance < MAX_ACCESS_POINTS) {

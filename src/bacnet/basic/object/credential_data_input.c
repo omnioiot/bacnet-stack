@@ -38,9 +38,9 @@
 #include "bacnet/basic/object/credential_data_input.h"
 #include "bacnet/basic/services.h"
 
-static bool Credential_Data_Input_Initialized = false;
+static __thread bool Credential_Data_Input_Initialized = false;
 
-static CREDENTIAL_DATA_INPUT_DESCR cdi_descr[MAX_CREDENTIAL_DATA_INPUTS];
+static __thread CREDENTIAL_DATA_INPUT_DESCR cdi_descr[MAX_CREDENTIAL_DATA_INPUTS];
 
 /* These three arrays are used by the ReadPropertyMultiple handler */
 static const int Properties_Required[] = { PROP_OBJECT_IDENTIFIER,
@@ -137,7 +137,7 @@ unsigned Credential_Data_Input_Instance_To_Index(uint32_t object_instance)
 bool Credential_Data_Input_Object_Name(
     uint32_t object_instance, BACNET_CHARACTER_STRING *object_name)
 {
-    static char text_string[32] = ""; /* okay for single thread */
+    static __thread char text_string[32] = ""; /* okay for single thread */
     bool status = false;
 
     if (object_instance < MAX_CREDENTIAL_DATA_INPUTS) {

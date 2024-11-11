@@ -52,7 +52,7 @@
 #endif
 
 #if defined(INTRINSIC_REPORTING)
-static NOTIFICATION_CLASS_INFO NC_Info[MAX_NOTIFICATION_CLASSES];
+static __thread NOTIFICATION_CLASS_INFO NC_Info[MAX_NOTIFICATION_CLASSES];
 
 /* These three arrays are used by the ReadPropertyMultiple handler */
 static const int Notification_Properties_Required[] = { PROP_OBJECT_IDENTIFIER,
@@ -140,7 +140,7 @@ unsigned Notification_Class_Instance_To_Index(uint32_t object_instance)
 bool Notification_Class_Object_Name(
     uint32_t object_instance, BACNET_CHARACTER_STRING *object_name)
 {
-    static char text_string[32] = ""; /* okay for single thread */
+    static __thread char text_string[32] = ""; /* okay for single thread */
     unsigned int index;
     bool status = false;
 

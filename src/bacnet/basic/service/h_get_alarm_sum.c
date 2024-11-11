@@ -40,7 +40,7 @@
 
 /** @file h_alarm_sum.c  Handles Get Alarm Summary request. */
 
-static get_alarm_summary_function Get_Alarm_Summary[MAX_BACNET_OBJECT_TYPE];
+static __thread get_alarm_summary_function Get_Alarm_Summary[MAX_BACNET_OBJECT_TYPE];
 
 void handler_get_alarm_summary_set(
     BACNET_OBJECT_TYPE object_type, get_alarm_summary_function pFunction)

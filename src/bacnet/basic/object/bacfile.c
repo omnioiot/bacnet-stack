@@ -53,7 +53,7 @@ typedef struct {
 #define FILE_RECORD_SIZE MAX_OCTET_STRING_BYTES
 #endif
 
-static BACNET_FILE_LISTING BACnet_File_Listing[] = {
+static __thread BACNET_FILE_LISTING BACnet_File_Listing[] = {
     { 0, "temp_0.txt" }, { 1, "temp_1.txt" }, { 2, "temp_2.txt" },
     { 0, NULL } /* last file indication */
 };

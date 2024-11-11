@@ -44,13 +44,13 @@
 #endif
 
 /* stores the current value */
-static BACNET_BINARY_PV Present_Value[MAX_BINARY_INPUTS];
+static __thread BACNET_BINARY_PV Present_Value[MAX_BINARY_INPUTS];
 /* out of service decouples physical input from Present_Value */
-static bool Out_Of_Service[MAX_BINARY_INPUTS];
+static __thread bool Out_Of_Service[MAX_BINARY_INPUTS];
 /* Change of Value flag */
-static bool Change_Of_Value[MAX_BINARY_INPUTS];
+static __thread bool Change_Of_Value[MAX_BINARY_INPUTS];
 /* Polarity of Input */
-static BACNET_POLARITY Polarity[MAX_BINARY_INPUTS];
+static __thread BACNET_POLARITY Polarity[MAX_BINARY_INPUTS];
 
 /* These three arrays are used by the ReadPropertyMultiple handler */
 static const int Binary_Input_Properties_Required[] = { PROP_OBJECT_IDENTIFIER,
@@ -106,7 +106,7 @@ uint32_t Binary_Input_Index_To_Instance(unsigned index)
 
 void Binary_Input_Init(void)
 {
-    static bool initialized = false;
+    static __thread bool initialized = false;
     unsigned i;
 
     if (!initialized) {
@@ -288,7 +288,7 @@ void Binary_Input_Out_Of_Service_Set(uint32_t object_instance, bool value)
 bool Binary_Input_Object_Name(
     uint32_t object_instance, BACNET_CHARACTER_STRING *object_name)
 {
-    static char text_string[32] = ""; /* okay for single thread */
+    static __thread char text_string[32] = ""; /* okay for single thread */
     bool status = false;
     unsigned index = 0;
 

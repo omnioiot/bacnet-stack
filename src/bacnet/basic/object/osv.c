@@ -44,7 +44,7 @@
 #define MAX_OCTETSTRING_VALUES 4
 #endif
 
-static OCTETSTRING_VALUE_DESCR OSV_Descr[MAX_OCTETSTRING_VALUES];
+static __thread OCTETSTRING_VALUE_DESCR OSV_Descr[MAX_OCTETSTRING_VALUES];
 
 /* These three arrays are used by the ReadPropertyMultiple handler */
 static const int OctetString_Value_Properties_Required[] = {
@@ -165,7 +165,7 @@ BACNET_OCTET_STRING *OctetString_Value_Present_Value(uint32_t object_instance)
 bool OctetString_Value_Object_Name(
     uint32_t object_instance, BACNET_CHARACTER_STRING *object_name)
 {
-    static char text_string[32] = ""; /* okay for single thread */
+    static __thread char text_string[32] = ""; /* okay for single thread */
     bool status = false;
 
     if (object_instance < MAX_OCTETSTRING_VALUES) {

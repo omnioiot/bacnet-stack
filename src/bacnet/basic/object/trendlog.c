@@ -49,8 +49,8 @@
 #define MAX_TREND_LOGS 8
 #endif
 
-static TL_DATA_REC Logs[MAX_TREND_LOGS][TL_MAX_ENTRIES];
-static TL_LOG_INFO LogInfo[MAX_TREND_LOGS];
+static __thread TL_DATA_REC Logs[MAX_TREND_LOGS][TL_MAX_ENTRIES];
+static __thread TL_LOG_INFO LogInfo[MAX_TREND_LOGS];
 
 /* These three arrays are used by the ReadPropertyMultiple handler */
 static const int Trend_Log_Properties_Required[] = { PROP_OBJECT_IDENTIFIER,
@@ -144,7 +144,7 @@ unsigned Trend_Log_Instance_To_Index(uint32_t object_instance)
  */
 void Trend_Log_Init(void)
 {
-    static bool initialized = false;
+    static __thread bool initialized = false;
     int iLog;
     int iEntry;
     struct tm TempTime;
@@ -237,7 +237,7 @@ void Trend_Log_Init(void)
 bool Trend_Log_Object_Name(
     uint32_t object_instance, BACNET_CHARACTER_STRING *object_name)
 {
-    static char text_string[32] = ""; /* okay for single thread */
+    static __thread char text_string[32] = ""; /* okay for single thread */
     bool status = false;
 
     if (object_instance < MAX_TREND_LOGS) {

@@ -85,7 +85,7 @@ struct mstp_pdu_packet {
 #ifndef MSTP_PDU_PACKET_COUNT
 #define MSTP_PDU_PACKET_COUNT 8
 #endif
-static struct mstp_pdu_packet PDU_Buffer[MSTP_PDU_PACKET_COUNT];
+static __thread struct mstp_pdu_packet PDU_Buffer[MSTP_PDU_PACKET_COUNT];
 static __thread RING_BUFFER PDU_Queue;
 /* The minimum time without a DataAvailable or ReceiveError event */
 /* that a node must wait for a station to begin replying to a */

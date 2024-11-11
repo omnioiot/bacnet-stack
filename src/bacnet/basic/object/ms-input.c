@@ -50,12 +50,12 @@
 #endif
 
 /* Here is our Present Value */
-static uint8_t Present_Value[MAX_MULTISTATE_INPUTS];
+static __thread uint8_t Present_Value[MAX_MULTISTATE_INPUTS];
 /* Writable out-of-service allows others to manipulate our Present Value */
-static bool Out_Of_Service[MAX_MULTISTATE_INPUTS];
-static char Object_Name[MAX_MULTISTATE_INPUTS][64];
-static char Object_Description[MAX_MULTISTATE_INPUTS][64];
-static char State_Text[MAX_MULTISTATE_INPUTS][MULTISTATE_NUMBER_OF_STATES][64];
+static __thread bool Out_Of_Service[MAX_MULTISTATE_INPUTS];
+static __thread char Object_Name[MAX_MULTISTATE_INPUTS][64];
+static __thread char Object_Description[MAX_MULTISTATE_INPUTS][64];
+static __thread char State_Text[MAX_MULTISTATE_INPUTS][MULTISTATE_NUMBER_OF_STATES][64];
 
 /* These three arrays are used by the ReadPropertyMultiple handler */
 static const int Properties_Required[] = { PROP_OBJECT_IDENTIFIER,

@@ -49,17 +49,17 @@
 #endif
 
 /* Here is our Present Value */
-static uint8_t Present_Value[MAX_MULTISTATE_VALUES];
+static __thread uint8_t Present_Value[MAX_MULTISTATE_VALUES];
 /* Writable out-of-service allows others to manipulate our Present Value */
-static bool Out_Of_Service[MAX_MULTISTATE_VALUES];
+static __thread bool Out_Of_Service[MAX_MULTISTATE_VALUES];
 /* Change of Value flag */
-static bool Change_Of_Value[MAX_MULTISTATE_VALUES];
+static __thread bool Change_Of_Value[MAX_MULTISTATE_VALUES];
 /* object name storage */
-static char Object_Name[MAX_MULTISTATE_VALUES][64];
+static __thread char Object_Name[MAX_MULTISTATE_VALUES][64];
 /* object description storage */
-static char Object_Description[MAX_MULTISTATE_VALUES][64];
+static __thread char Object_Description[MAX_MULTISTATE_VALUES][64];
 /* object state text storage */
-static char State_Text[MAX_MULTISTATE_VALUES][MULTISTATE_NUMBER_OF_STATES][64];
+static __thread char State_Text[MAX_MULTISTATE_VALUES][MULTISTATE_NUMBER_OF_STATES][64];
 
 /* These three arrays are used by the ReadPropertyMultiple handler */
 static const int Properties_Required[] = { PROP_OBJECT_IDENTIFIER,

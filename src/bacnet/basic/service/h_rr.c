@@ -43,7 +43,7 @@
 
 /** @file h_rr.c  Handles Read Range requests. */
 
-static uint8_t Temp_Buf[MAX_APDU] = { 0 };
+static __thread uint8_t Temp_Buf[MAX_APDU] = { 0 };
 
 /* Encodes the property APDU and returns the length,
    or sets the error, and returns -1 */

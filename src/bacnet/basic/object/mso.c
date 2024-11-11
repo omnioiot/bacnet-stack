@@ -51,11 +51,11 @@
 /* how many states? 1 to 254 states, 0 is not allowed */
 #define MULTISTATE_NUMBER_OF_STATES (254)
 /* Here is our Priority Array.*/
-static uint8_t Multistate_Output_Level[MAX_MULTISTATE_OUTPUTS]
+static __thread uint8_t Multistate_Output_Level[MAX_MULTISTATE_OUTPUTS]
                                       [BACNET_MAX_PRIORITY];
 /* Writable out-of-service allows others to play with our Present Value */
 /* without changing the physical output */
-static bool Out_Of_Service[MAX_MULTISTATE_OUTPUTS];
+static __thread bool Out_Of_Service[MAX_MULTISTATE_OUTPUTS];
 
 /* These three arrays are used by the ReadPropertyMultiple handler */
 static const int Multistate_Output_Properties_Required[] = {
@@ -89,7 +89,7 @@ void Multistate_Output_Property_Lists(
 void Multistate_Output_Init(void)
 {
     unsigned i, j;
-    static bool initialized = false;
+    static __thread bool initialized = false;
 
     if (!initialized) {
         initialized = true;
@@ -169,7 +169,7 @@ uint32_t Multistate_Output_Present_Value(uint32_t object_instance)
 bool Multistate_Output_Object_Name(
     uint32_t object_instance, BACNET_CHARACTER_STRING *object_name)
 {
-    static char text_string[32] = ""; /* okay for single thread */
+    static __thread char text_string[32] = ""; /* okay for single thread */
     bool status = false;
 
     if (object_instance < MAX_MULTISTATE_OUTPUTS) {

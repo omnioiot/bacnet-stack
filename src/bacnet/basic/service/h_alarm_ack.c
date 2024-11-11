@@ -46,7 +46,7 @@
 
 /** @file h_alarm_ack.c  Handles Alarm Acknowledgment. */
 
-static alarm_ack_function Alarm_Ack[MAX_BACNET_OBJECT_TYPE];
+static __thread alarm_ack_function Alarm_Ack[MAX_BACNET_OBJECT_TYPE];
 
 void handler_alarm_ack_set(
     BACNET_OBJECT_TYPE object_type, alarm_ack_function pFunction)

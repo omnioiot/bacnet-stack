@@ -49,12 +49,12 @@
 /** @file apdu.c  Handles APDU services */
 
 /* APDU Timeout in Milliseconds */
-static uint16_t Timeout_Milliseconds = 3000;
+static __thread uint16_t Timeout_Milliseconds = 3000;
 /* Number of APDU Retries */
-static uint8_t Number_Of_Retries = 3;
+static __thread uint8_t Number_Of_Retries = 3;
 
 /* a simple table for crossing the services supported */
-static BACNET_SERVICES_SUPPORTED
+static __thread BACNET_SERVICES_SUPPORTED
     confirmed_service_supported[MAX_BACNET_CONFIRMED_SERVICE] = {
         SERVICE_SUPPORTED_ACKNOWLEDGE_ALARM,
         SERVICE_SUPPORTED_CONFIRMED_COV_NOTIFICATION,
@@ -79,7 +79,7 @@ static BACNET_SERVICES_SUPPORTED
     };
 
 /* a simple table for crossing the services supported */
-static BACNET_SERVICES_SUPPORTED
+static __thread BACNET_SERVICES_SUPPORTED
     unconfirmed_service_supported[MAX_BACNET_UNCONFIRMED_SERVICE] = {
         SERVICE_SUPPORTED_I_AM, SERVICE_SUPPORTED_I_HAVE,
         SERVICE_SUPPORTED_UNCONFIRMED_COV_NOTIFICATION,
@@ -92,7 +92,7 @@ static BACNET_SERVICES_SUPPORTED
 
 /* Confirmed Function Handlers */
 /* If they are not set, they are handled by a reject message */
-static confirmed_function Confirmed_Function[MAX_BACNET_CONFIRMED_SERVICE];
+static __thread confirmed_function Confirmed_Function[MAX_BACNET_CONFIRMED_SERVICE];
 
 /**
  * @brief Set a handler function for the given confirmed service.
@@ -109,7 +109,7 @@ void apdu_set_confirmed_handler(
 }
 
 /* Allow the APDU handler to automatically reject */
-static confirmed_function Unrecognized_Service_Handler;
+static __thread confirmed_function Unrecognized_Service_Handler;
 
 /**
  * @brief Set a handler function called for an unsupported service.
@@ -124,7 +124,7 @@ void apdu_set_unrecognized_service_handler_handler(confirmed_function pFunction)
 
 /* Unconfirmed Function Handlers */
 /* If they are not set, they are not handled */
-static unconfirmed_function
+static __thread unconfirmed_function
     Unconfirmed_Function[MAX_BACNET_UNCONFIRMED_SERVICE];
 
 /**
@@ -235,7 +235,7 @@ bool apdu_service_supported_to_index(
 }
 
 /* Confirmed ACK Function Handlers */
-static confirmed_ack_function
+static __thread confirmed_ack_function
     Confirmed_ACK_Function[MAX_BACNET_CONFIRMED_SERVICE];
 
 void apdu_set_confirmed_simple_ack_handler(
@@ -301,7 +301,7 @@ void apdu_set_confirmed_ack_handler(
     }
 }
 
-static error_function Error_Function[MAX_BACNET_CONFIRMED_SERVICE];
+static __thread error_function Error_Function[MAX_BACNET_CONFIRMED_SERVICE];
 
 /**
  * @brief Set a error handler function for the given confirmed service.
@@ -318,14 +318,14 @@ void apdu_set_error_handler(
     }
 }
 
-static abort_function Abort_Function;
+static __thread abort_function Abort_Function;
 
 void apdu_set_abort_handler(abort_function pFunction)
 {
     Abort_Function = pFunction;
 }
 
-static reject_function Reject_Function;
+static __thread reject_function Reject_Function;
 
 /**
  * @brief Set a handler function called for a rejected service.

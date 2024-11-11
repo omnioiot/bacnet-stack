@@ -591,7 +591,7 @@ bool Command_All_Writes_Successful_Set(uint32_t object_instance, bool value)
 bool Command_Object_Name(
     uint32_t object_instance, BACNET_CHARACTER_STRING *object_name)
 {
-    static char text_string[32] = ""; /* okay for single thread */
+    static __thread char text_string[32] = ""; /* okay for single thread */
     unsigned int index;
     bool status = false;
 

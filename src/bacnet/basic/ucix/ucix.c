@@ -25,7 +25,7 @@
 #include "bacnet/basic/ucix/ucix.h"
 /*#include "log.h" */
 
-static struct uci_ptr ptr;
+static __thread struct uci_ptr ptr;
 
 static inline int ucix_get_ptr(struct uci_context *ctx,
     const char *p,

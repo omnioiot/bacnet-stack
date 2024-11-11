@@ -63,32 +63,32 @@
 #endif
 
 /** enable debugging */
-static bool BVLC_Debug = false;
+static __thread bool BVLC_Debug = false;
 /** result from a client request */
-static uint16_t BVLC_Result_Code = BVLC_RESULT_SUCCESSFUL_COMPLETION;
+static __thread uint16_t BVLC_Result_Code = BVLC_RESULT_SUCCESSFUL_COMPLETION;
 /** incoming function */
-static uint8_t BVLC_Function_Code = BVLC_RESULT;
+static __thread uint8_t BVLC_Function_Code = BVLC_RESULT;
 /** Global IP address for NAT handling */
-static BACNET_IP_ADDRESS BVLC_Global_Address;
+static __thread BACNET_IP_ADDRESS BVLC_Global_Address;
 /** Flag to indicate if NAT handling is enabled/disabled */
-static bool BVLC_NAT_Handling = false;
+static __thread bool BVLC_NAT_Handling = false;
 /** if we are a foreign device, store the remote BBMD address/port here */
-static BACNET_IP_ADDRESS Remote_BBMD;
+static __thread BACNET_IP_ADDRESS Remote_BBMD;
 #if BBMD_ENABLED
 /* local buffer & length for sending */
-static uint8_t BVLC_Buffer[MAX_MPDU];
-static uint16_t BVLC_Buffer_Len;
+static __thread uint8_t BVLC_Buffer[MAX_MPDU];
+static __thread uint16_t BVLC_Buffer_Len;
 /* Broadcast Distribution Table */
 #ifndef MAX_BBMD_ENTRIES
 #define MAX_BBMD_ENTRIES 128
 #endif
-static BACNET_IP_BROADCAST_DISTRIBUTION_TABLE_ENTRY
+static __thread BACNET_IP_BROADCAST_DISTRIBUTION_TABLE_ENTRY
     BBMD_Table[MAX_BBMD_ENTRIES];
 /* Foreign Device Table */
 #ifndef MAX_FD_ENTRIES
 #define MAX_FD_ENTRIES 128
 #endif
-static BACNET_IP_FOREIGN_DEVICE_TABLE_ENTRY FD_Table[MAX_FD_ENTRIES];
+static __thread BACNET_IP_FOREIGN_DEVICE_TABLE_ENTRY FD_Table[MAX_FD_ENTRIES];
 #endif
 
 /**
@@ -176,7 +176,7 @@ static void debug_print_string(const char *str)
 
 void bvlc_bdt_backup_local(void)
 {
-    static FILE *bdt_file_ptr = NULL;
+    static __thread FILE *bdt_file_ptr = NULL;
 
     /* only try opening the file if not already opened previously */
     if (!bdt_file_ptr) {
@@ -196,7 +196,7 @@ void bvlc_bdt_backup_local(void)
 
 void bvlc_bdt_restore_local(void)
 {
-    static FILE *bdt_file_ptr = NULL;
+    static __thread FILE *bdt_file_ptr = NULL;
 
     /* only try opening the file if not already opened previously */
     if (!bdt_file_ptr) {
