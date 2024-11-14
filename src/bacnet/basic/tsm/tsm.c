@@ -371,6 +371,8 @@ void tsm_free_invoke_id(uint8_t invokeID)
         plist->state = TSM_STATE_IDLE;
         plist->InvokeID = 0;
     }
+
+    printf("Kohlmann: tsm_free_invoke_id\n");
 }
 
 /** Check if the invoke ID has been made free by the Transaction State Machine.
@@ -421,7 +423,7 @@ bool tsm_invoke_id_failed(uint8_t invokeID)
 #include "ctest.h"
 
 /* flag to send an I-Am */
-bool I_Am_Request = true;
+__thread bool I_Am_Request = true;
 
 /* dummy function stubs */
 int datalink_send_pdu(BACNET_ADDRESS *dest,

@@ -106,11 +106,11 @@ uint8_t Send_Read_Property_Request_Address(BACNET_ADDRESS *dest,
             bytes_sent = datalink_send_pdu(
                 dest, &npdu_data, &Handler_Transmit_Buffer[0], pdu_len);
             if (bytes_sent <= 0) {
-#if PRINT_ENABLED
+// kohlmann: disabled: #if PRINT_ENABLED
                 fprintf(stderr, "Failed to Send ReadProperty Request (%s)!\n",
                     strerror(errno));
-#endif
-            }
+// kohlmann: disabled: #endif
+            } else {printf("kohlmann: Request has been sent.\n");}
         } else {
             tsm_free_invoke_id(invoke_id);
             invoke_id = 0;
@@ -121,7 +121,7 @@ uint8_t Send_Read_Property_Request_Address(BACNET_ADDRESS *dest,
 #endif
         }
     }
-
+    printf("kohlmann: invoke_id=%i\n", invoke_id);
     return invoke_id;
 }
 
@@ -153,6 +153,7 @@ uint8_t Send_Read_Property_Request(uint32_t device_id, /* destination device */
 
     /* is the device bound? */
     status = address_get_by_device(device_id, &max_apdu, &dest);
+    printf("kohlmann: address_get_by_device=%i, device_id=%i\n", status, device_id);
     if (status) {
         invoke_id = Send_Read_Property_Request_Address(&dest, max_apdu,
             object_type, object_instance, object_property, array_index);
