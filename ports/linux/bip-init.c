@@ -283,7 +283,7 @@ int bip_send_mpdu(BACNET_IP_ADDRESS *dest, uint8_t *mtu, uint16_t mtu_len)
     /* Send the packet */
     debug_print_ipv4(
         "Sending MPDU->", &bip_dest.sin_addr, bip_dest.sin_port, mtu_len);
-    printf("kohlmann: BIP_Socket= %i\n", BIP_Socket);
+    printf("BIP_Socket= %i\n", BIP_Socket);     // kohlmann: print statement added
     return sendto(BIP_Socket, (char *)mtu, mtu_len, 0,
         (struct sockaddr *)&bip_dest, sizeof(struct sockaddr));
 }

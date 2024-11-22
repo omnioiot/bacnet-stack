@@ -371,8 +371,6 @@ void tsm_free_invoke_id(uint8_t invokeID)
         plist->state = TSM_STATE_IDLE;
         plist->InvokeID = 0;
     }
-
-    printf("Kohlmann: tsm_free_invoke_id\n");
 }
 
 /** Check if the invoke ID has been made free by the Transaction State Machine.
