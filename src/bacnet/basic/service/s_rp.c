@@ -106,10 +106,10 @@ uint8_t Send_Read_Property_Request_Address(BACNET_ADDRESS *dest,
             bytes_sent = datalink_send_pdu(
                 dest, &npdu_data, &Handler_Transmit_Buffer[0], pdu_len);
             if (bytes_sent <= 0) {
-// kohlmann: disabled: #if PRINT_ENABLED
+#if PRINT_ENABLED
                 fprintf(stderr, "Failed to Send ReadProperty Request (%s)!\n",
                     strerror(errno));
-// kohlmann: disabled: #endif
+#endif
             } else {printf("kohlmann: Request has been sent.\n");}
         } else {
             tsm_free_invoke_id(invoke_id);
