@@ -817,7 +817,7 @@ bool bip_init(char *ifname)
     else {
         socklen_t len = sizeof(struct sockaddr);
         if (getsockname(sock_fd, (struct sockaddr *)&sin, &len) != -1) {
-            bip_set_port(sin.sin_port);
+            bip_set_port(ntohs(sin.sin_port));
         }
     }
     // kohlmann added end
