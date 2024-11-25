@@ -408,7 +408,7 @@ void dlenv_maintenance_timer(uint16_t elapsed_seconds)
  *     communications.  Default is 47808 (0xBAC0).
  *   - BACNET_BIP6_BROADCAST - FF05::BAC0 or FF02::BAC0 or ...
  */
-void dlenv_init(void)
+void dlenv_init(bool dynamic_port)
 {
     char *pEnv = NULL;
 
@@ -460,6 +460,13 @@ void dlenv_init(void)
             bip_set_port(0xBAC0);
         }
     }
+    
+    // kohlmann added start: Brute force overwrite
+    if (dynamic_port) {
+        bip_set_port(0);
+    }
+    // kohlmann added end
+
     pEnv = getenv("BACNET_IP_NAT_ADDR");
     if (pEnv) {
         BACNET_IP_ADDRESS addr;

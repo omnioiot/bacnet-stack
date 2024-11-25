@@ -253,7 +253,7 @@ int main(int argc, char *argv[])
     if (argc > 2) {
         Device_Object_Name_ANSI_Init(argv[2]);
     }
-    dlenv_init();
+    dlenv_init(0);
     atexit(datalink_cleanup);
     /* configure the timeout values */
     last_seconds = time(NULL);

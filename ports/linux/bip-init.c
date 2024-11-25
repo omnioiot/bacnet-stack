@@ -804,7 +804,7 @@ bool bip_init(char *ifname)
     /* bind the socket to the local port number and IP address */
     sin.sin_family = AF_INET;
     sin.sin_addr.s_addr = htonl(INADDR_ANY);
-    sin.sin_port = 0;      // kohlmann replaced: BIP_Port;
+    sin.sin_port = BIP_Port;
     memset(&(sin.sin_zero), '\0', sizeof(sin.sin_zero));
     status =
         bind(sock_fd, (const struct sockaddr *)&sin, sizeof(struct sockaddr));
@@ -817,7 +817,6 @@ bool bip_init(char *ifname)
     else {
         socklen_t len = sizeof(struct sockaddr);
         if (getsockname(sock_fd, (struct sockaddr *)&sin, &len) != -1) {
-            printf("port number %d\n", ntohs(sin.sin_port));
             bip_set_port(sin.sin_port);
         }
     }

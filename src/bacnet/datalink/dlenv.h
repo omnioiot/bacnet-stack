@@ -37,7 +37,7 @@ extern "C" {
 
     BACNET_STACK_EXPORT
     void dlenv_init(
-        void);
+        bool dynamic_port);
 
     BACNET_STACK_EXPORT
     int dlenv_register_as_foreign_device(

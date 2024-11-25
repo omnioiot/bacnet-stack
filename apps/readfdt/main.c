@@ -153,7 +153,7 @@ int main(int argc, char *argv[])
     Device_Set_Object_Instance_Number(BACNET_MAX_INSTANCE);
     Init_Service_Handlers();
     address_init();
-    dlenv_init();
+    dlenv_init(0);
     atexit(datalink_cleanup);
     /* configure the timeout values */
     last_seconds = time(NULL);

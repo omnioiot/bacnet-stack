@@ -1437,7 +1437,7 @@ int main(int argc, char *argv[])
 #endif
     address_init();
     Init_Service_Handlers();
-    dlenv_init();
+    dlenv_init(0);
     atexit(datalink_cleanup);
 
     /* configure the timeout values */

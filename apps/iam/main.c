@@ -236,7 +236,7 @@ int main(int argc, char *argv[])
     Device_Set_Object_Instance_Number(BACNET_MAX_INSTANCE);
     Init_Service_Handlers();
     address_init();
-    dlenv_init();
+    dlenv_init(0);
     atexit(datalink_cleanup);
     /* send the request */
     Send_I_Am_To_Network(&dest, Target_Device_ID, Target_Max_APDU,
