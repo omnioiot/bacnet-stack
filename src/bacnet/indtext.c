@@ -186,7 +186,7 @@ unsigned indtext_count(INDTEXT_DATA *data_list)
 #include <assert.h>
 #include "ctest.h"
 
-static INDTEXT_DATA data_list[] = { { 1, "Joshua" }, { 2, "Mary" },
+static __thread INDTEXT_DATA data_list[] = { { 1, "Joshua" }, { 2, "Mary" },
     { 3, "Anna" }, { 4, "Christopher" }, { 5, "Patricia" }, { 0, NULL } };
 
 void testIndexText(Test *pTest)

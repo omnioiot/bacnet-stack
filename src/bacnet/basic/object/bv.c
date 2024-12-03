@@ -46,11 +46,11 @@
 /* the Relinquish Default value */
 #define RELINQUISH_DEFAULT BINARY_INACTIVE
 /* Here is our Priority Array.*/
-static BACNET_BINARY_PV Binary_Value_Level[MAX_BINARY_VALUES]
+static __thread BACNET_BINARY_PV Binary_Value_Level[MAX_BINARY_VALUES]
                                           [BACNET_MAX_PRIORITY];
 /* Writable out-of-service allows others to play with our Present Value */
 /* without changing the physical output */
-static bool Out_Of_Service[MAX_BINARY_VALUES];
+static __thread bool Out_Of_Service[MAX_BINARY_VALUES];
 
 /* These three arrays are used by the ReadPropertyMultiple handler */
 static const int Binary_Value_Properties_Required[] = { PROP_OBJECT_IDENTIFIER,
@@ -92,7 +92,7 @@ void Binary_Value_Property_Lists(
 void Binary_Value_Init(void)
 {
     unsigned i, j;
-    static bool initialized = false;
+    static __thread bool initialized = false;
 
     if (!initialized) {
         initialized = true;
@@ -209,7 +209,7 @@ BACNET_BINARY_PV Binary_Value_Present_Value(uint32_t object_instance)
 bool Binary_Value_Object_Name(
     uint32_t object_instance, BACNET_CHARACTER_STRING *object_name)
 {
-    static char text_string[32] = ""; /* okay for single thread */
+    static __thread char text_string[32] = ""; /* okay for single thread */
     bool status = false;
 
     if (object_instance < MAX_BINARY_VALUES) {

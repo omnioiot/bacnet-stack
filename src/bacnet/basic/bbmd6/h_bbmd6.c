@@ -44,27 +44,27 @@
 #include "bacnet/basic/bbmd6/vmac.h"
 
 /** result from a client request */
-static uint16_t BVLC6_Result_Code = BVLC6_RESULT_SUCCESSFUL_COMPLETION;
+static __thread uint16_t BVLC6_Result_Code = BVLC6_RESULT_SUCCESSFUL_COMPLETION;
 /** incoming function */
-static uint8_t BVLC6_Function_Code = BVLC6_RESULT;
+static __thread uint8_t BVLC6_Function_Code = BVLC6_RESULT;
 
 /** if we are a foreign device, store the remote BBMD address/port here */
-static BACNET_IP6_ADDRESS Remote_BBMD;
+static __thread BACNET_IP6_ADDRESS Remote_BBMD;
 #if defined(BACDL_BIP6) && BBMD6_ENABLED
 /* local buffer & length for sending */
-static uint8_t BVLC6_Buffer[MAX_MPDU];
-static uint16_t BVLC6_Buffer_Len;
+static __thread uint8_t BVLC6_Buffer[MAX_MPDU];
+static __thread uint16_t BVLC6_Buffer_Len;
 /* Broadcast Distribution Table */
 #ifndef MAX_BBMD6_ENTRIES
 #define MAX_BBMD6_ENTRIES 128
 #endif
-static BACNET_IP6_BROADCAST_DISTRIBUTION_TABLE_ENTRY
+static __thread BACNET_IP6_BROADCAST_DISTRIBUTION_TABLE_ENTRY
     BBMD_Table[MAX_BBMD6_ENTRIES];
 /* Foreign Device Table */
 #ifndef MAX_FD6_ENTRIES
 #define MAX_FD6_ENTRIES 128
 #endif
-static BACNET_IP6_FOREIGN_DEVICE_TABLE_ENTRY FD_Table[MAX_FD6_ENTRIES];
+static __thread BACNET_IP6_FOREIGN_DEVICE_TABLE_ENTRY FD_Table[MAX_FD6_ENTRIES];
 #endif
 
 /** A timer function that is called about once a second.

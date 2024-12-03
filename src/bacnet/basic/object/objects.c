@@ -42,7 +42,7 @@
 /** @file objects.c  Manage Device Objects. */
 
 /* list of devices */
-static OS_Keylist Device_List = NULL;
+static __thread OS_Keylist Device_List = NULL;
 
 void objects_init(void)
 {

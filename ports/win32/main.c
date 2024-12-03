@@ -247,7 +247,7 @@ int main(int argc, char *argv[])
     Device_Set_Object_Instance_Number(4194300);
     address_init();
     Init_Service_Handlers();
-    dlenv_init();
+    dlenv_init(0);
     datalink_get_broadcast_address(&broadcast_address);
     print_address("Broadcast", &broadcast_address);
     datalink_get_my_address(&my_address);

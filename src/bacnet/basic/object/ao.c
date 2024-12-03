@@ -51,13 +51,13 @@
 /* Here is our Priority Array.  They are supposed to be Real, but */
 /* we don't have that kind of memory, so we will use a single byte */
 /* and load a Real for returning the value when asked. */
-static uint8_t Analog_Output_Level[MAX_ANALOG_OUTPUTS][BACNET_MAX_PRIORITY];
+static __thread uint8_t Analog_Output_Level[MAX_ANALOG_OUTPUTS][BACNET_MAX_PRIORITY];
 /* Writable out-of-service allows others to play with our Present Value */
 /* without changing the physical output */
-static bool Out_Of_Service[MAX_ANALOG_OUTPUTS];
+static __thread bool Out_Of_Service[MAX_ANALOG_OUTPUTS];
 
 /* we need to have our arrays initialized before answering any calls */
-static bool Analog_Output_Initialized = false;
+static __thread bool Analog_Output_Initialized = false;
 
 /* These three arrays are used by the ReadPropertyMultiple handler */
 static const int Properties_Required[] = { PROP_OBJECT_IDENTIFIER,
@@ -235,7 +235,7 @@ bool Analog_Output_Present_Value_Relinquish(
 bool Analog_Output_Object_Name(
     uint32_t object_instance, BACNET_CHARACTER_STRING *object_name)
 {
-    static char text_string[32] = ""; /* okay for single thread */
+    static __thread char text_string[32] = ""; /* okay for single thread */
     bool status = false;
 
     if (object_instance < MAX_ANALOG_OUTPUTS) {

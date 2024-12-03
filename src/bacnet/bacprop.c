@@ -40,7 +40,7 @@
 
 /** @file bacprop.c  Lookup BACnet Property Tags */
 
-PROP_TAG_DATA bacnet_object_device_property_tag_map[] = {
+__thread PROP_TAG_DATA bacnet_object_device_property_tag_map[] = {
     { PROP_OBJECT_IDENTIFIER, BACNET_APPLICATION_TAG_OBJECT_ID },
     { PROP_OBJECT_NAME, BACNET_APPLICATION_TAG_CHARACTER_STRING },
     { PROP_OBJECT_TYPE, BACNET_APPLICATION_TAG_ENUMERATED },

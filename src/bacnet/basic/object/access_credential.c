@@ -38,9 +38,9 @@
 #include "bacnet/basic/object/access_credential.h"
 #include "bacnet/basic/services.h"
 
-static bool Access_Credential_Initialized = false;
+static __thread bool Access_Credential_Initialized = false;
 
-static ACCESS_CREDENTIAL_DESCR ac_descr[MAX_ACCESS_CREDENTIALS];
+static __thread ACCESS_CREDENTIAL_DESCR ac_descr[MAX_ACCESS_CREDENTIALS];
 
 /* These three arrays are used by the ReadPropertyMultiple handler */
 static const int Properties_Required[] = { PROP_OBJECT_IDENTIFIER,
@@ -139,7 +139,7 @@ unsigned Access_Credential_Instance_To_Index(uint32_t object_instance)
 bool Access_Credential_Object_Name(
     uint32_t object_instance, BACNET_CHARACTER_STRING *object_name)
 {
-    static char text_string[32] = ""; /* okay for single thread */
+    static __thread char text_string[32] = ""; /* okay for single thread */
     bool status = false;
 
     if (object_instance < MAX_ACCESS_CREDENTIALS) {

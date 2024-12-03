@@ -45,11 +45,11 @@
 #endif
 
 /* Here is our Present Value */
-static BACNET_CHARACTER_STRING Present_Value[MAX_CHARACTERSTRING_VALUES];
+static __thread BACNET_CHARACTER_STRING Present_Value[MAX_CHARACTERSTRING_VALUES];
 /* Writable out-of-service allows others to manipulate our Present Value */
-static bool Out_Of_Service[MAX_CHARACTERSTRING_VALUES];
-static char Object_Name[MAX_CHARACTERSTRING_VALUES][64];
-static char Object_Description[MAX_CHARACTERSTRING_VALUES][64];
+static __thread bool Out_Of_Service[MAX_CHARACTERSTRING_VALUES];
+static __thread char Object_Name[MAX_CHARACTERSTRING_VALUES][64];
+static __thread char Object_Description[MAX_CHARACTERSTRING_VALUES][64];
 
 /* These three arrays are used by the ReadPropertyMultiple handler */
 static const int Properties_Required[] = { PROP_OBJECT_IDENTIFIER,

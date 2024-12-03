@@ -46,7 +46,7 @@
 #endif
 
 /*  indicates the current load shedding state of the object */
-static BACNET_SHED_STATE Present_Value[MAX_LOAD_CONTROLS];
+static __thread BACNET_SHED_STATE Present_Value[MAX_LOAD_CONTROLS];
 
 /* load control objects are required to support LEVEL */
 typedef enum BACnetShedLevelType {
@@ -70,42 +70,42 @@ typedef struct {
     } value;
 } BACNET_SHED_LEVEL;
 /* indicates the desired load shedding */
-static BACNET_SHED_LEVEL Requested_Shed_Level[MAX_LOAD_CONTROLS];
+static __thread BACNET_SHED_LEVEL Requested_Shed_Level[MAX_LOAD_CONTROLS];
 /* Indicates the amount of power that the object expects
    to be able to shed in response to a load shed request. */
-static BACNET_SHED_LEVEL Expected_Shed_Level[MAX_LOAD_CONTROLS];
+static __thread BACNET_SHED_LEVEL Expected_Shed_Level[MAX_LOAD_CONTROLS];
 /* Indicates the actual amount of power being shed in response
    to a load shed request. */
-static BACNET_SHED_LEVEL Actual_Shed_Level[MAX_LOAD_CONTROLS];
+static __thread BACNET_SHED_LEVEL Actual_Shed_Level[MAX_LOAD_CONTROLS];
 
 /* indicates the start of the duty window in which the load controlled
    by the Load Control object must be compliant with the requested shed. */
-static BACNET_DATE_TIME Start_Time[MAX_LOAD_CONTROLS];
-static BACNET_DATE_TIME End_Time[MAX_LOAD_CONTROLS];
-static BACNET_DATE_TIME Current_Time;
+static __thread BACNET_DATE_TIME Start_Time[MAX_LOAD_CONTROLS];
+static __thread BACNET_DATE_TIME End_Time[MAX_LOAD_CONTROLS];
+static __thread BACNET_DATE_TIME Current_Time;
 
 /* indicates the duration of the load shed action,
    starting at Start_Time in minutes */
-static uint32_t Shed_Duration[MAX_LOAD_CONTROLS];
+static __thread uint32_t Shed_Duration[MAX_LOAD_CONTROLS];
 
 /* indicates the time window used for load shed accounting in minutes */
-static uint32_t Duty_Window[MAX_LOAD_CONTROLS];
+static __thread uint32_t Duty_Window[MAX_LOAD_CONTROLS];
 
 /* indicates and controls whether the Load Control object is
    currently enabled to respond to load shed requests.  */
-static bool Load_Control_Enable[MAX_LOAD_CONTROLS];
+static __thread bool Load_Control_Enable[MAX_LOAD_CONTROLS];
 
 /* indicates when the object receives a write to any of the properties
    Requested_Shed_Level, Shed_Duration, Duty_Window */
-static bool Load_Control_Request_Written[MAX_LOAD_CONTROLS];
+static __thread bool Load_Control_Request_Written[MAX_LOAD_CONTROLS];
 /* indicates when the object receives a write to Start_Time */
-static bool Start_Time_Property_Written[MAX_LOAD_CONTROLS];
+static __thread bool Start_Time_Property_Written[MAX_LOAD_CONTROLS];
 
 /* optional: indicates the baseline power consumption value
    for the sheddable load controlled by this object,
    if a fixed baseline is used.
    The units of Full_Duty_Baseline are kilowatts.*/
-static float Full_Duty_Baseline[MAX_LOAD_CONTROLS];
+static __thread float Full_Duty_Baseline[MAX_LOAD_CONTROLS];
 
 #define MAX_SHED_LEVELS 3
 /* Represents the shed levels for the LEVEL choice of
@@ -119,15 +119,15 @@ static float Full_Duty_Baseline[MAX_LOAD_CONTROLS];
    shall be equal to the size of the Shed_Level_Descriptions
    array. The behavior of this object when the Shed_Levels
    array contains duplicate entries is a local matter. */
-static unsigned Shed_Levels[MAX_LOAD_CONTROLS][MAX_SHED_LEVELS];
+static __thread unsigned Shed_Levels[MAX_LOAD_CONTROLS][MAX_SHED_LEVELS];
 
 /* represents a description of the shed levels that the
    Load Control object can take on.  It is the same for
    all the load control objects in this example device. */
-static char *Shed_Level_Descriptions[MAX_SHED_LEVELS] = { "dim lights 10%",
+static __thread char *Shed_Level_Descriptions[MAX_SHED_LEVELS] = { "dim lights 10%",
     "dim lights 20%", "dim lights 30%" };
 
-static float Shed_Level_Values[MAX_SHED_LEVELS] = { 90.0, 80.0, 70.0 };
+static __thread float Shed_Level_Values[MAX_SHED_LEVELS] = { 90.0, 80.0, 70.0 };
 
 /* These three arrays are used by the ReadPropertyMultiple handler */
 static const int Load_Control_Properties_Required[] = { PROP_OBJECT_IDENTIFIER,
@@ -246,7 +246,7 @@ static BACNET_SHED_STATE Load_Control_Present_Value(uint32_t object_instance)
 bool Load_Control_Object_Name(
     uint32_t object_instance, BACNET_CHARACTER_STRING *object_name)
 {
-    static char text_string[32] = ""; /* okay for single thread */
+    static __thread char text_string[32] = ""; /* okay for single thread */
     bool status = false;
 
     if (object_instance < MAX_LOAD_CONTROLS) {
@@ -368,8 +368,8 @@ typedef enum load_control_state {
     SHED_COMPLIANT,
     MAX_LOAD_CONTROL_STATE
 } LOAD_CONTROL_STATE;
-static LOAD_CONTROL_STATE Load_Control_State[MAX_LOAD_CONTROLS];
-static LOAD_CONTROL_STATE Load_Control_State_Previously[MAX_LOAD_CONTROLS];
+static __thread LOAD_CONTROL_STATE Load_Control_State[MAX_LOAD_CONTROLS];
+static __thread LOAD_CONTROL_STATE Load_Control_State_Previously[MAX_LOAD_CONTROLS];
 
 #if PRINT_ENABLED_DEBUG
 static void Print_Load_Control_State(int object_index)
@@ -599,7 +599,7 @@ void Load_Control_State_Machine(int object_index)
 void Load_Control_State_Machine_Handler(void)
 {
     unsigned i = 0;
-    static bool initialized = false;
+    static __thread bool initialized = false;
 
     if (!initialized) {
         initialized = true;

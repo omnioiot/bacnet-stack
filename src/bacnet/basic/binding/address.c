@@ -56,10 +56,10 @@
 /* occurs in BACnet.  A device id is bound to a MAC address. */
 /* The normal method is using Who-Is, and using the data from I-Am */
 
-static uint32_t Top_Protected_Entry;
-static uint32_t Own_Device_ID = 0xFFFFFFFF;
+static __thread uint32_t Top_Protected_Entry;
+static __thread uint32_t Own_Device_ID = 0xFFFFFFFF;
 
-static struct Address_Cache_Entry {
+static __thread struct Address_Cache_Entry {
     uint8_t Flags;
     uint32_t device_id;
     unsigned max_apdu;

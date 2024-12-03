@@ -41,7 +41,7 @@ struct object_data {
     int32_t Scale;
 };
 
-static struct object_data Object_List[MAX_ACCUMULATORS];
+static __thread struct object_data Object_List[MAX_ACCUMULATORS];
 
 /* These three arrays are used by the ReadPropertyMultiple handler */
 static const int Properties_Required[] = { PROP_OBJECT_IDENTIFIER,
@@ -152,7 +152,7 @@ unsigned Accumulator_Instance_To_Index(uint32_t object_instance)
 bool Accumulator_Object_Name(
     uint32_t object_instance, BACNET_CHARACTER_STRING *object_name)
 {
-    static char text_string[32]; /* okay for single thread */
+    static __thread char text_string[32]; /* okay for single thread */
     bool status = false;
 
     if (object_instance < MAX_ACCUMULATORS) {

@@ -229,7 +229,7 @@ int main(int argc, char *argv[])
        in our device bindings list */
     address_init();
     Init_Service_Handlers();
-    dlenv_init();
+    dlenv_init(0);
     atexit(datalink_cleanup);
     piface_init();
     atexit(piface_cleanup);

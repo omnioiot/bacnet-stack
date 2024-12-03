@@ -44,8 +44,8 @@
 /* note: time duration is given in Minutes, but in order to be accurate,
    we need to count down in seconds. */
 /* infinite time duration is defined as 0 */
-static uint32_t DCC_Time_Duration_Seconds = 0;
-static BACNET_COMMUNICATION_ENABLE_DISABLE DCC_Enable_Disable =
+static __thread uint32_t DCC_Time_Duration_Seconds = 0;
+static __thread BACNET_COMMUNICATION_ENABLE_DISABLE DCC_Enable_Disable =
     COMMUNICATION_ENABLE;
 /* password is optionally supported */
 

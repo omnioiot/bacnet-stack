@@ -37,9 +37,9 @@
 #include "access_door.h"
 #include "bacnet/basic/services.h"
 
-static bool Access_Door_Initialized = false;
+static __thread bool Access_Door_Initialized = false;
 
-static ACCESS_DOOR_DESCR ad_descr[MAX_ACCESS_DOORS];
+static __thread ACCESS_DOOR_DESCR ad_descr[MAX_ACCESS_DOORS];
 
 /* These three arrays are used by the ReadPropertyMultiple handler */
 static const int Properties_Required[] = { PROP_OBJECT_IDENTIFIER,
@@ -247,7 +247,7 @@ BACNET_DOOR_VALUE Access_Door_Relinquish_Default(uint32_t object_instance)
 bool Access_Door_Object_Name(
     uint32_t object_instance, BACNET_CHARACTER_STRING *object_name)
 {
-    static char text_string[32] = ""; /* okay for single thread */
+    static __thread char text_string[32] = ""; /* okay for single thread */
     bool status = false;
 
     if (object_instance < MAX_ACCESS_DOORS) {

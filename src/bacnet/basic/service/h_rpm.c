@@ -47,7 +47,7 @@
 
 /** @file h_rpm.c  Handles Read Property Multiple requests. */
 
-static uint8_t Temp_Buf[MAX_APDU] = { 0 };
+static __thread uint8_t Temp_Buf[MAX_APDU] = { 0 };
 
 static BACNET_PROPERTY_ID RPM_Object_Property(
     struct special_property_list_t *pPropertyList,

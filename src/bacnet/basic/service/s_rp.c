@@ -110,7 +110,7 @@ uint8_t Send_Read_Property_Request_Address(BACNET_ADDRESS *dest,
                 fprintf(stderr, "Failed to Send ReadProperty Request (%s)!\n",
                     strerror(errno));
 #endif
-            }
+            } else {printf("Request has been sent.\n");}      //kohlmann print statement added
         } else {
             tsm_free_invoke_id(invoke_id);
             invoke_id = 0;
@@ -121,7 +121,6 @@ uint8_t Send_Read_Property_Request_Address(BACNET_ADDRESS *dest,
 #endif
         }
     }
-
     return invoke_id;
 }
 

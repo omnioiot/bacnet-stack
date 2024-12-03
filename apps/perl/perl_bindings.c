@@ -477,7 +477,7 @@ void BacnetPrepareComm()
     Device_Set_Object_Instance_Number(BACNET_MAX_INSTANCE);
     address_init();
     Init_Service_Handlers();
-    dlenv_init();
+    dlenv_init(0);
 }
 
 /****************************************************/

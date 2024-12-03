@@ -93,15 +93,15 @@ bool Routed_Device_Write_Property_Local(BACNET_WRITE_PROPERTY_DATA *wp_data);
 /** Model the gateway as the main Device, with (two) remote
  * Devices that are reached via its routing capabilities.
  */
-DEVICE_OBJECT_DATA Devices[MAX_NUM_DEVICES];
+__thread DEVICE_OBJECT_DATA Devices[MAX_NUM_DEVICES];
 /** Keep track of the number of managed devices, including the gateway */
-uint16_t Num_Managed_Devices = 0;
+__thread uint16_t Num_Managed_Devices = 0;
 /** Which Device entry are we currently managing.
  * Since we are not using actual class objects here, the best we can do is
  * keep this local variable which notes which of the Devices the current
  * request is addressing.  Should default to 0, the main gateway Device.
  */
-uint16_t iCurrent_Device_Idx = 0;
+__thread uint16_t iCurrent_Device_Idx = 0;
 
 /* void Routing_Device_Init(uint32_t first_object_instance) is
  * found in device.c

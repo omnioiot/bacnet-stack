@@ -33,10 +33,10 @@
 /** @file linux/mstimer.c  Provides Linux-specific time and timer functions. */
 
 /* counter for the various timers */
-static volatile unsigned long Millisecond_Counter;
+static __thread volatile unsigned long Millisecond_Counter;
 
 /* start time for the clock */
-static struct timespec start;
+static __thread struct timespec start;
 
 /** @brief The timeGetTime function retrieves the system time, in milliseconds.
  *  The system time is the time elapsed since Windows was started.

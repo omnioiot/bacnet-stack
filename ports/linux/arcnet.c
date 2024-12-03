@@ -41,11 +41,11 @@
 /** @file linux/arcnet.c  Provides Linux-specific functions for Arcnet. */
 
 /* my local device data - MAC address */
-uint8_t ARCNET_MAC_Address = 0;
+__thread uint8_t ARCNET_MAC_Address = 0;
 /* ARCNET file handle */
-static int ARCNET_Sock_FD = -1;
+static __thread int ARCNET_Sock_FD = -1;
 /* ARCNET socket address (has the interface name) */
-static struct sockaddr ARCNET_Socket_Address;
+static __thread struct sockaddr ARCNET_Socket_Address;
 /* Broadcast address */
 #define ARCNET_BROADCAST 0
 

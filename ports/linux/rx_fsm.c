@@ -67,11 +67,11 @@
 #endif
 
 /* local port data - shared with RS-485 */
-static volatile struct mstp_port_struct_t MSTP_Port;
+static __thread volatile struct mstp_port_struct_t MSTP_Port;
 /* buffers needed by mstp port struct */
-static uint8_t RxBuffer[MAX_MPDU];
-static uint8_t TxBuffer[MAX_MPDU];
-static uint16_t SilenceTime;
+static __thread uint8_t RxBuffer[MAX_MPDU];
+static __thread uint8_t TxBuffer[MAX_MPDU];
+static __thread uint16_t SilenceTime;
 #define INCREMENT_AND_LIMIT_UINT16(x) \
     {                                 \
         if (x < 0xFFFF)               \
@@ -139,7 +139,7 @@ int timestamp_ms(void)
     struct timeval tv;
     int delta_ticks = 0;
     long ticks = 0;
-    static long last_ticks = 0;
+    static __thread long last_ticks = 0;
     int rv = 0;
 
     rv = gettimeofday(&tv, NULL);
@@ -155,7 +155,7 @@ int timestamp_ms(void)
 }
 
 static const char *Capture_Filename = "mstp.cap";
-static FILE *pFile = NULL; /* stream pointer */
+static __thread FILE *pFile = NULL; /* stream pointer */
 
 /* write packet to file in libpcap format */
 static void write_global_header(void)

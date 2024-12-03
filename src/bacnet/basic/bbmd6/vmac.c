@@ -49,7 +49,7 @@
 /* occurs in BACnet for ZigBee or IPv6. */
 
 /* Key List for storing the object data sorted by instance number  */
-static OS_Keylist VMAC_List;
+static __thread OS_Keylist VMAC_List;
 
 /**
  * Returns the number of VMAC in the list

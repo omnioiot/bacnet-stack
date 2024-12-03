@@ -60,20 +60,20 @@
 /** @file linux/bip-init.c  Initializes BACnet/IP interface (Linux). */
 
 /* unix socket */
-static int BIP_Socket = -1;
+static __thread int BIP_Socket = -1;
 
 /* NOTE: we store address and port in network byte order
    since BACnet/IP uses network byte order for all address byte arrays
 */
 /* port to use - stored here in network byte order */
 /* Initialize to 0 - this will force initialization in demo apps */
-static uint16_t BIP_Port;
+static __thread uint16_t BIP_Port;
 /* IP address - stored here in network byte order */
-static struct in_addr BIP_Address;
+static __thread struct in_addr BIP_Address;
 /* IP broadcast address - stored here in network byte order */
-static struct in_addr BIP_Broadcast_Addr;
+static __thread struct in_addr BIP_Broadcast_Addr;
 /* enable debugging */
-static bool BIP_Debug = false;
+static __thread bool BIP_Debug = false;
 
 /**
  * @brief Print the IPv4 address with debug info
@@ -283,6 +283,7 @@ int bip_send_mpdu(BACNET_IP_ADDRESS *dest, uint8_t *mtu, uint16_t mtu_len)
     /* Send the packet */
     debug_print_ipv4(
         "Sending MPDU->", &bip_dest.sin_addr, bip_dest.sin_port, mtu_len);
+    printf("BIP_Socket= %i\n", BIP_Socket);     // kohlmann: print statement added
     return sendto(BIP_Socket, (char *)mtu, mtu_len, 0,
         (struct sockaddr *)&bip_dest, sizeof(struct sockaddr));
 }
@@ -331,7 +332,7 @@ uint16_t bip_receive(
     max = BIP_Socket;
     /* see if there is a packet for us */
     if (select(max + 1, &read_fds, NULL, NULL, &select_timeout) > 0) {
-        received_bytes = recvfrom(max, (char *)&npdu[0], max_npdu, 0,
+        received_bytes = recvfrom(max, (char *)&npdu[0], max_npdu, MSG_WAITALL,
             (struct sockaddr *)&sin, &sin_len);
     } else {
         return 0;
@@ -546,7 +547,7 @@ static int readNlSock(
  */
 static char *ntoa(uint32_t addr)
 {
-    static char buffer[18];
+    static __thread char buffer[18];
 
     sprintf(buffer, "%d.%d.%d.%d", (addr & 0x000000FF),
         (addr & 0x0000FF00) >> 8, (addr & 0x00FF0000) >> 16,
@@ -624,7 +625,7 @@ static void parseRoutes(struct nlmsghdr *nlHdr, struct route_info *rtInfo)
  */
 static char *ifname_default(void)
 {
-    static char ifName[IF_NAMESIZE] = { 0 };
+    static __thread char ifName[IF_NAMESIZE] = { 0 };
     struct nlmsghdr *nlMsg = NULL;
     struct route_info *rtInfo = NULL;
     char msgBuf[8192] = { 0 };
@@ -812,6 +813,14 @@ bool bip_init(char *ifname)
         BIP_Socket = -1;
         return false;
     }
+    // kohlmann added start
+    else {
+        socklen_t len = sizeof(struct sockaddr);
+        if (getsockname(sock_fd, (struct sockaddr *)&sin, &len) != -1) {
+            bip_set_port(ntohs(sin.sin_port));
+        }
+    }
+    // kohlmann added end
     bvlc_init();
 
     return true;

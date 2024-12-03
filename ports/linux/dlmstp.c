@@ -46,34 +46,34 @@
  */
 
 /* Number of MS/TP Packets Rx/Tx */
-uint16_t MSTP_Packets = 0;
+__thread uint16_t MSTP_Packets = 0;
 
 /* packet queues */
-static DLMSTP_PACKET Receive_Packet;
+static __thread DLMSTP_PACKET Receive_Packet;
 /* mechanism to wait for a packet */
 /*
 static RT_COND Receive_Packet_Flag;
 static RT_MUTEX Receive_Packet_Mutex;
 */
-static pthread_cond_t Receive_Packet_Flag;
-static pthread_mutex_t Receive_Packet_Mutex;
+static __thread pthread_cond_t Receive_Packet_Flag;
+static __thread pthread_mutex_t Receive_Packet_Mutex;
 /* mechanism to wait for a frame in state machine */
 /*
 static RT_COND Received_Frame_Flag;
 static RT_MUTEX Received_Frame_Mutex;
 */
 
-static pthread_cond_t Received_Frame_Flag;
-static pthread_mutex_t Received_Frame_Mutex;
-static pthread_cond_t Master_Done_Flag;
-static pthread_mutex_t Master_Done_Mutex;
+static __thread pthread_cond_t Received_Frame_Flag;
+static __thread pthread_mutex_t Received_Frame_Mutex;
+static __thread pthread_cond_t Master_Done_Flag;
+static __thread pthread_mutex_t Master_Done_Mutex;
 
 /*RT_TASK Receive_Task, Fsm_Task;*/
 /* local MS/TP port data - shared with RS-485 */
-static volatile struct mstp_port_struct_t MSTP_Port;
+static __thread volatile struct mstp_port_struct_t MSTP_Port;
 /* buffers needed by mstp port struct */
-static uint8_t TxBuffer[MAX_MPDU];
-static uint8_t RxBuffer[MAX_MPDU];
+static __thread uint8_t TxBuffer[MAX_MPDU];
+static __thread uint8_t RxBuffer[MAX_MPDU];
 /* data structure for MS/TP PDU Queue */
 struct mstp_pdu_packet {
     bool data_expecting_reply;
@@ -85,21 +85,21 @@ struct mstp_pdu_packet {
 #ifndef MSTP_PDU_PACKET_COUNT
 #define MSTP_PDU_PACKET_COUNT 8
 #endif
-static struct mstp_pdu_packet PDU_Buffer[MSTP_PDU_PACKET_COUNT];
-static RING_BUFFER PDU_Queue;
+static __thread struct mstp_pdu_packet PDU_Buffer[MSTP_PDU_PACKET_COUNT];
+static __thread RING_BUFFER PDU_Queue;
 /* The minimum time without a DataAvailable or ReceiveError event */
 /* that a node must wait for a station to begin replying to a */
 /* confirmed request: 255 milliseconds. (Implementations may use */
 /* larger values for this timeout, not to exceed 300 milliseconds.) */
-static uint16_t Treply_timeout = 300;
+static __thread uint16_t Treply_timeout = 300;
 /* The time without a DataAvailable or ReceiveError event that a node must */
 /* wait for a remote node to begin using a token or replying to a Poll For */
 /* Master frame: 20 milliseconds. (Implementations may use larger values for */
 /* this timeout, not to exceed 35 milliseconds.) */
-static uint8_t Tusage_timeout = 30;
+static __thread uint8_t Tusage_timeout = 30;
 /* Timer that indicates line silence - and functions */
 
-static struct timespec start;
+static __thread struct timespec start;
 
 /**
  * Calculate the time difference between two timespec values.
@@ -772,7 +772,7 @@ void apdu_handler(BACNET_ADDRESS *src, /* source address */
     (void)pdu_len;
 }
 
-static char *Network_Interface = NULL;
+static __thread char *Network_Interface = NULL;
 
 int main(int argc, char *argv[])
 {

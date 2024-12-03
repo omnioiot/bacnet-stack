@@ -237,7 +237,7 @@ int main(int argc, char *argv[])
 
     address_init();
     Init_Service_Handlers();
-    dlenv_init();
+    dlenv_init(0);
     atexit(datalink_cleanup);
     /* configure the timeout values */
     last_seconds = time(NULL);

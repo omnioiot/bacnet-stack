@@ -237,7 +237,7 @@ int main(int argc, char *argv[])
     /* setup my info */
     Device_Set_Object_Instance_Number(BACNET_MAX_INSTANCE);
     Init_Service_Handlers();
-    dlenv_init();
+    dlenv_init(0);
     atexit(datalink_cleanup);
     Send_UCOV_Notify(&Handler_Transmit_Buffer[0],
         sizeof(Handler_Transmit_Buffer), &cov_data);

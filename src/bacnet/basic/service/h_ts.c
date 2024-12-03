@@ -46,7 +46,7 @@
 BACNET_RECIPIENT_LIST Time_Sync_Recipients[MAX_TIME_SYNC_RECIPIENTS];
 /* variable used for controlling when to
    automatically send a TimeSynchronization request */
-static BACNET_DATE_TIME Next_Sync_Time;
+static __thread BACNET_DATE_TIME Next_Sync_Time;
 #endif
 
 #if PRINT_ENABLED

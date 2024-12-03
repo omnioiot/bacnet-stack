@@ -39,7 +39,7 @@
 
 /** @file mstptext.c  Text mapping functions for BACnet MS/TP */
 
-static INDTEXT_DATA mstp_receive_state_text[] = { { MSTP_RECEIVE_STATE_IDLE,
+static __thread INDTEXT_DATA mstp_receive_state_text[] = { { MSTP_RECEIVE_STATE_IDLE,
                                                       "IDLE" },
     { MSTP_RECEIVE_STATE_PREAMBLE, "PREAMBLE" },
     { MSTP_RECEIVE_STATE_HEADER, "HEADER" },
@@ -50,7 +50,7 @@ const char *mstptext_receive_state(unsigned index)
     return indtext_by_index_default(mstp_receive_state_text, index, "unknown");
 }
 
-static INDTEXT_DATA mstp_master_state_text[] = { { MSTP_MASTER_STATE_INITIALIZE,
+static __thread INDTEXT_DATA mstp_master_state_text[] = { { MSTP_MASTER_STATE_INITIALIZE,
                                                      "INITIALIZE" },
     { MSTP_MASTER_STATE_IDLE, "IDLE" },
     { MSTP_MASTER_STATE_USE_TOKEN, "USE_TOKEN" },
@@ -67,7 +67,7 @@ const char *mstptext_master_state(unsigned index)
     return indtext_by_index_default(mstp_master_state_text, index, "unknown");
 }
 
-static INDTEXT_DATA mstp_frame_type_text[] = { { FRAME_TYPE_TOKEN, "TOKEN" },
+static __thread INDTEXT_DATA mstp_frame_type_text[] = { { FRAME_TYPE_TOKEN, "TOKEN" },
     { FRAME_TYPE_POLL_FOR_MASTER, "POLL_FOR_MASTER" },
     { FRAME_TYPE_REPLY_TO_POLL_FOR_MASTER, "REPLY_TO_POLL_FOR_MASTER" },
     { FRAME_TYPE_TEST_REQUEST, "TEST_REQUEST" },

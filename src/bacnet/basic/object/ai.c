@@ -45,7 +45,7 @@
 #define MAX_ANALOG_INPUTS 4
 #endif
 
-static ANALOG_INPUT_DESCR AI_Descr[MAX_ANALOG_INPUTS];
+static __thread ANALOG_INPUT_DESCR AI_Descr[MAX_ANALOG_INPUTS];
 
 /* These three arrays are used by the ReadPropertyMultiple handler */
 static const int Properties_Required[] = { PROP_OBJECT_IDENTIFIER,
@@ -209,7 +209,7 @@ void Analog_Input_Present_Value_Set(uint32_t object_instance, float value)
 bool Analog_Input_Object_Name(
     uint32_t object_instance, BACNET_CHARACTER_STRING *object_name)
 {
-    static char text_string[32] = ""; /* okay for single thread */
+    static __thread char text_string[32] = ""; /* okay for single thread */
     unsigned int index;
     bool status = false;
 

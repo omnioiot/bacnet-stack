@@ -37,9 +37,9 @@
 #include "access_zone.h"
 #include "bacnet/basic/services.h"
 
-static bool Access_Zone_Initialized = false;
+static __thread bool Access_Zone_Initialized = false;
 
-static ACCESS_ZONE_DESCR az_descr[MAX_ACCESS_ZONES];
+static __thread ACCESS_ZONE_DESCR az_descr[MAX_ACCESS_ZONES];
 
 /* These three arrays are used by the ReadPropertyMultiple handler */
 static const int Properties_Required[] = { PROP_OBJECT_IDENTIFIER,
@@ -135,7 +135,7 @@ unsigned Access_Zone_Instance_To_Index(uint32_t object_instance)
 bool Access_Zone_Object_Name(
     uint32_t object_instance, BACNET_CHARACTER_STRING *object_name)
 {
-    static char text_string[32] = ""; /* okay for single thread */
+    static __thread char text_string[32] = ""; /* okay for single thread */
     bool status = false;
 
     if (object_instance < MAX_ACCESS_ZONES) {

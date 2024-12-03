@@ -227,7 +227,7 @@ int main(int argc, char *argv[])
     /* setup this BACnet Server device */
     Device_Set_Object_Instance_Number(111);
     Init_Service_Handlers();
-    dlenv_init();
+    dlenv_init(0);
     /* loop forever */
     for (;;) {
         /* input */

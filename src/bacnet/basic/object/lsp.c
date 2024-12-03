@@ -44,15 +44,15 @@
 #endif
 
 /* Here are our stored levels.*/
-static BACNET_LIFE_SAFETY_MODE Life_Safety_Point_Mode[MAX_LIFE_SAFETY_POINTS];
-static BACNET_LIFE_SAFETY_STATE Life_Safety_Point_State[MAX_LIFE_SAFETY_POINTS];
-static BACNET_SILENCED_STATE
+static __thread BACNET_LIFE_SAFETY_MODE Life_Safety_Point_Mode[MAX_LIFE_SAFETY_POINTS];
+static __thread BACNET_LIFE_SAFETY_STATE Life_Safety_Point_State[MAX_LIFE_SAFETY_POINTS];
+static __thread BACNET_SILENCED_STATE
     Life_Safety_Point_Silenced_State[MAX_LIFE_SAFETY_POINTS];
-static BACNET_LIFE_SAFETY_OPERATION
+static __thread BACNET_LIFE_SAFETY_OPERATION
     Life_Safety_Point_Operation[MAX_LIFE_SAFETY_POINTS];
 /* Writable out-of-service allows others to play with our Present Value */
 /* without changing the physical output */
-static bool Life_Safety_Point_Out_Of_Service[MAX_LIFE_SAFETY_POINTS];
+static __thread bool Life_Safety_Point_Out_Of_Service[MAX_LIFE_SAFETY_POINTS];
 
 /* These three arrays are used by the ReadPropertyMultiple handler */
 static const int Life_Safety_Point_Properties_Required[] = {
@@ -96,7 +96,7 @@ void Life_Safety_Point_Property_Lists(
 
 void Life_Safety_Point_Init(void)
 {
-    static bool initialized = false;
+    static __thread bool initialized = false;
     unsigned i;
 
     if (!initialized) {
@@ -173,7 +173,7 @@ static BACNET_LIFE_SAFETY_STATE Life_Safety_Point_Present_Value(
 bool Life_Safety_Point_Object_Name(
     uint32_t object_instance, BACNET_CHARACTER_STRING *object_name)
 {
-    static char text_string[32] = ""; /* okay for single thread */
+    static __thread char text_string[32] = ""; /* okay for single thread */
     bool status = false;
 
     if (object_instance < MAX_LIFE_SAFETY_POINTS) {

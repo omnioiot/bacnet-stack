@@ -87,9 +87,9 @@ extern bool Routed_Device_Write_Property_Local(
     BACNET_WRITE_PROPERTY_DATA *wp_data);
 
 /* may be overridden by outside table */
-static object_functions_t *Object_Table;
+static __thread object_functions_t *Object_Table;
 
-static object_functions_t My_Object_Table[] = {
+static __thread object_functions_t My_Object_Table[] = {
     { OBJECT_DEVICE, NULL /* Init - don't init Device or it will recourse! */,
         Device_Count, Device_Index_To_Instance,
         Device_Valid_Object_Instance_Number, Device_Object_Name,
@@ -406,16 +406,16 @@ void Device_Property_Lists(
    The properties that are constant can be hard coded
    into the read-property encoding. */
 
-static uint32_t Object_Instance_Number = 260001;
-static BACNET_CHARACTER_STRING My_Object_Name;
-static BACNET_DEVICE_STATUS System_Status = STATUS_OPERATIONAL;
-static char *Vendor_Name = BACNET_VENDOR_NAME;
-static uint16_t Vendor_Identifier = BACNET_VENDOR_ID;
-static char Model_Name[MAX_DEV_MOD_LEN + 1] = "GNU";
-static char Application_Software_Version[MAX_DEV_VER_LEN + 1] = "1.0";
+static __thread uint32_t Object_Instance_Number = 260001;
+static __thread BACNET_CHARACTER_STRING My_Object_Name;
+static __thread BACNET_DEVICE_STATUS System_Status = STATUS_OPERATIONAL;
+static __thread char *Vendor_Name = BACNET_VENDOR_NAME;
+static __thread uint16_t Vendor_Identifier = BACNET_VENDOR_ID;
+static __thread char Model_Name[MAX_DEV_MOD_LEN + 1] = "GNU";
+static __thread char Application_Software_Version[MAX_DEV_VER_LEN + 1] = "1.0";
 static const char *BACnet_Version = BACNET_VERSION_TEXT;
-static char Location[MAX_DEV_LOC_LEN + 1] = "USA";
-static char Description[MAX_DEV_DESC_LEN + 1] = "server";
+static __thread char Location[MAX_DEV_LOC_LEN + 1] = "USA";
+static __thread char Description[MAX_DEV_DESC_LEN + 1] = "server";
 /* static uint8_t Protocol_Version = 1; - constant, not settable */
 /* static uint8_t Protocol_Revision = 4; - constant, not settable */
 /* Protocol_Services_Supported - dynamically generated */
@@ -425,25 +425,25 @@ static char Description[MAX_DEV_DESC_LEN + 1] = "server";
 /* static uint8_t Max_Segments_Accepted = 0; */
 /* VT_Classes_Supported */
 /* Active_VT_Sessions */
-static BACNET_TIME Local_Time; /* rely on OS, if there is one */
-static BACNET_DATE Local_Date; /* rely on OS, if there is one */
+static __thread BACNET_TIME Local_Time; /* rely on OS, if there is one */
+static __thread BACNET_DATE Local_Date; /* rely on OS, if there is one */
 /* NOTE: BACnet UTC Offset is inverse of common practice.
    If your UTC offset is -5hours of GMT,
    then BACnet UTC offset is +5hours.
    BACnet UTC offset is expressed in minutes. */
-static int16_t UTC_Offset = 5 * 60;
-static bool Daylight_Savings_Status = false; /* rely on OS */
+static __thread int16_t UTC_Offset = 5 * 60;
+static __thread bool Daylight_Savings_Status = false; /* rely on OS */
 #if defined(BACNET_TIME_MASTER)
-static bool Align_Intervals;
-static uint32_t Interval_Minutes;
-static uint32_t Interval_Offset_Minutes;
+static __thread bool Align_Intervals;
+static __thread uint32_t Interval_Minutes;
+static __thread uint32_t Interval_Offset_Minutes;
 /* Time_Synchronization_Recipients */
 #endif
 /* List_Of_Session_Keys */
 /* Max_Master - rely on MS/TP subsystem, if there is one */
 /* Max_Info_Frames - rely on MS/TP subsystem, if there is one */
 /* Device_Address_Binding - required, but relies on binding cache */
-static uint32_t Database_Revision = 0;
+static __thread uint32_t Database_Revision = 0;
 /* Configuration_Files */
 /* Last_Restore_Time */
 /* Backup_Failure_Timeout */
@@ -453,7 +453,7 @@ static uint32_t Database_Revision = 0;
 /* Auto_Slave_Discovery */
 /* Slave_Address_Binding */
 /* Profile_Name */
-static BACNET_REINITIALIZED_STATE Reinitialize_State = BACNET_REINIT_IDLE;
+static __thread BACNET_REINITIALIZED_STATE Reinitialize_State = BACNET_REINIT_IDLE;
 static const char *Reinit_Password = "filister";
 
 /** Commands a Device re-initialization, to a given state.

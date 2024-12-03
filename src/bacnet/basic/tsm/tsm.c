@@ -49,7 +49,7 @@
 
 /** @file tsm.c  BACnet Transaction State Machine operations  */
 /* FIXME: modify basic service handlers to use TSM rather than this buffer! */
-uint8_t Handler_Transmit_Buffer[MAX_PDU] = { 0 };
+__thread uint8_t Handler_Transmit_Buffer[MAX_PDU] = { 0 };
 
 #if (MAX_TSM_TRANSACTIONS)
 /* Really only needed for segmented messages */
@@ -61,12 +61,12 @@ uint8_t Handler_Transmit_Buffer[MAX_PDU] = { 0 };
 
 /* declare space for the TSM transactions, and set it up in the init. */
 /* table rules: an Invoke ID = 0 is an unused spot in the table */
-static BACNET_TSM_DATA TSM_List[MAX_TSM_TRANSACTIONS];
+static __thread BACNET_TSM_DATA TSM_List[MAX_TSM_TRANSACTIONS];
 
 /* invoke ID for incrementing between subsequent calls. */
-static uint8_t Current_Invoke_ID = 1;
+static __thread uint8_t Current_Invoke_ID = 1;
 
-static tsm_timeout_function Timeout_Function;
+static __thread tsm_timeout_function Timeout_Function;
 
 void tsm_set_timeout_handler(tsm_timeout_function pFunction)
 {
@@ -421,7 +421,7 @@ bool tsm_invoke_id_failed(uint8_t invokeID)
 #include "ctest.h"
 
 /* flag to send an I-Am */
-bool I_Am_Request = true;
+__thread bool I_Am_Request = true;
 
 /* dummy function stubs */
 int datalink_send_pdu(BACNET_ADDRESS *dest,
